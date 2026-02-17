@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caleb's Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1419; color: #e7e9ea; min-height: 100vh; padding: 24px; }
+    .header { margin-bottom: 32px; }
+    .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .header p { color: #71767b; font-size: 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+    .card { background: #16181c; border: 1px solid #2f3336; border-radius: 16px; padding: 20px; }
+    .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .card-header .emoji { font-size: 28px; }
+    .card-header h2 { font-size: 18px; font-weight: 600; }
+    .status { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .status.live { background: #00ba7c33; color: #00ba7c; }
+    .status.building { background: #f9197f33; color: #f9197f; }
+    .status.planned { background: #7856ff33; color: #7856ff; }
+    .status.paused { background: #ffd40033; color: #ffd400; }
+    .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 16px 0; }
+    .metric { background: #1d1f23; padding: 12px; border-radius: 8px; }
+    .metric-label { font-size: 11px; color: #71767b; text-transform: uppercase; letter-spacing: 0.5px; }
+    .metric-value { font-size: 20px; font-weight: 700; margin-top: 4px; }
+    .links { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .links a { background: #1d9bf01a; color: #1d9bf0; padding: 8px 14px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: 500; }
+    .links a:hover { background: #1d9bf033; }
+    .notes { margin-top: 16px; padding: 12px; background: #1d1f23; border-radius: 8px; font-size: 13px; color: #a0a0a0; }
+    .notes strong { color: #e7e9ea; }
+    .last-updated { text-align: center; margin-top: 32px; color: #71767b; font-size: 12px; }
+    .quick-actions { background: #16181c; border: 1px solid #2f3336; border-radius: 16px; padding: 20px; margin-bottom: 24px; }
+    .quick-actions h3 { font-size: 14px; color: #71767b; margin-bottom: 12px; }
+    .quick-actions .buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+    .quick-actions a { background: #1d9bf0; color: white; padding: 10px 18px; border-radius: 20px; text-decoration: none; font-size: 14px; font-weight: 600; }
+    .quick-actions a:hover { background: #1a8cd8; }
+    .quick-actions a.secondary { background: transparent; border: 1px solid #536471; color: #e7e9ea; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🦅 Caleb's Command Center</h1>
+    <p>All projects at a glance. Updated by Quill.</p>
+  </div>
+
+  <div class="quick-actions">
+    <h3>QUICK ACTIONS</h3>
+    <div class="buttons">
+      <a href="https://frendsco.com/crm/dashboard" target="_blank">Open CRM</a>
+      <a href="https://frendsco.com/retail" target="_blank">Foxinal Retail Deck</a>
+      <a href="https://kalshi.com/portfolio" target="_blank">Kalshi Portfolio</a>
+      <a href="#" class="secondary" onclick="location.reload()">Refresh</a>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- FrendsCo CRM -->
+    <div class="card">
+      <div class="card-header">
+        <span class="emoji">📊</span>
+        <h2>FrendsCo CRM</h2>
+        <span class="status live">LIVE</span>
+      </div>
+      <p style="color:#a0a0a0;font-size:14px;">Salesforce replacement. Multi-org, AI-powered activity logging.</p>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Orgs</div><div class="metric-value">3</div></div>
+        <div class="metric"><div class="metric-label">Users</div><div class="metric-value">3</div></div>
+        <div class="metric"><div class="metric-label">Features</div><div class="metric-value">12+</div></div>
+        <div class="metric"><div class="metric-label">AI Model</div><div class="metric-value">Haiku/Sonnet</div></div>
+      </div>
+      <div class="links">
+        <a href="https://frendsco.com/crm" target="_blank">Login</a>
+        <a href="https://frendsco.com/crm/dashboard" target="_blank">Dashboard</a>
+        <a href="https://frendsco.com/crm/admin" target="_blank">Admin</a>
+      </div>
+      <div class="notes">
+        <strong>Latest:</strong> Multi-org hierarchy, AI quick log with smart model routing, logger role for activity-only users.
+      </div>
+    </div>
+
+    <!-- Kalshi Trading -->
+    <div class="card">
+      <div class="card-header">
+        <span class="emoji">🏀</span>
+        <h2>Kalshi Apex</h2>
+        <span class="status paused">PAUSED</span>
+      </div>
+      <p style="color:#a0a0a0;font-size:14px;">NCAA basketball prediction model + automated trading.</p>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Cash Balance</div><div class="metric-value" id="kalshi-balance">$0.71</div></div>
+        <div class="metric"><div class="metric-label">Open Positions</div><div class="metric-value">7</div></div>
+        <div class="metric"><div class="metric-label">ACC Accuracy</div><div class="metric-value">85.7%</div></div>
+        <div class="metric"><div class="metric-label">Overall</div><div class="metric-value">50.5%</div></div>
+      </div>
+      <div class="links">
+        <a href="https://kalshi.com/portfolio" target="_blank">Portfolio</a>
+      </div>
+      <div class="notes">
+        <strong>Status:</strong> Most capital in open positions. 312 contracts on Arkansas. Need to check P&L on settled positions.
+      </div>
+    </div>
+
+    <!-- SAP Financial -->
+    <div class="card">
+      <div class="card-header">
+        <span class="emoji">💰</span>
+        <h2>SAP Financial</h2>
+        <span class="status live">LIVE</span>
+      </div>
+      <p style="color:#a0a0a0;font-size:14px;">Financial modeling, forecasting, commission tracking for SAP.</p>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Scanner Forecast</div><div class="metric-value">350</div></div>
+        <div class="metric"><div class="metric-label">SmileBoxx</div><div class="metric-value">220</div></div>
+        <div class="metric"><div class="metric-label">Margin/Case</div><div class="metric-value">$349</div></div>
+        <div class="metric"><div class="metric-label">Database</div><div class="metric-value">SQLite</div></div>
+      </div>
+      <div class="links">
+        <a href="http://100.114.61.50:3456/s/q9v2x" target="_blank">Admin Panel</a>
+      </div>
+    </div>
+
+    <!-- Wayne Social Media -->
+    <div class="card">
+      <div class="card-header">
+        <span class="emoji">🎩</span>
+        <h2>Wayne (Social AI)</h2>
+        <span class="status building">BUILDING</span>
+      </div>
+      <p style="color:#a0a0a0;font-size:14px;">AI agent for social media content creation and posting.</p>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">VM Status</div><div class="metric-value">Running</div></div>
+        <div class="metric"><div class="metric-label">Model</div><div class="metric-value">Opus</div></div>
+        <div class="metric"><div class="metric-label">Telegram</div><div class="metric-value">@Wayne_frendsco</div></div>
+        <div class="metric"><div class="metric-label">Instagram</div><div class="metric-value">Pending</div></div>
+      </div>
+      <div class="notes">
+        <strong>Next:</strong> Instagram API integration, content calendar, auto-posting workflow.
+      </div>
+    </div>
+
+    <!-- Foxinal Retail -->
+    <div class="card">
+      <div class="card-header">
+        <span class="emoji">🦊</span>
+        <h2>Foxinal Retail</h2>
+        <span class="status live">LIVE</span>
+      </div>
+      <p style="color:#a0a0a0;font-size:14px;">Retail pitch deck for Set Shield + Lumaero.</p>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Slides</div><div class="metric-value">20</div></div>
+        <div class="metric"><div class="metric-label">Set Shield MSRP</div><div class="metric-value">$39.99</div></div>
+        <div class="metric"><div class="metric-label">Lumaero MSRP</div><div class="metric-value">$299</div></div>
+        <div class="metric"><div class="metric-label">Survey Responses</div><div class="metric-value">5/25</div></div>
+      </div>
+      <div class="links">
+        <a href="https://foxinal.com/retail" target="_blank">Deck</a>
+        <a href="https://forms.gle/zw1iLEXxzknMpKGG6" target="_blank">Survey</a>
+      </div>
+    </div>
+
+    <!-- MLB Model -->
+    <div class="card">
+      <div class="card-header">
+        <span class="emoji">⚾</span>
+        <h2>MLB Model</h2>
+        <span class="status planned">PLANNED</span>
+      </div>
+      <p style="color:#a0a0a0;font-size:14px;">Baseball prediction model for 2026 season.</p>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Opening Day</div><div class="metric-value">Mar 26</div></div>
+        <div class="metric"><div class="metric-label">Days Until</div><div class="metric-value" id="mlb-countdown">--</div></div>
+        <div class="metric"><div class="metric-label">Status</div><div class="metric-value">Research</div></div>
+        <div class="metric"><div class="metric-label">Data</div><div class="metric-value">Pending</div></div>
+      </div>
+      <div class="notes">
+        <strong>Plan:</strong> Build on NCAA learnings. Focus on specific edges, not broad market.
+      </div>
+    </div>
+
+    <!-- Agent Fleet -->
+    <div class="card">
+      <div class="card-header">
+        <span class="emoji">🤖</span>
+        <h2>Agent Fleet</h2>
+        <span class="status live">LIVE</span>
+      </div>
+      <p style="color:#a0a0a0;font-size:14px;">AI agent VMs running on exe.dev infrastructure.</p>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Active</div><div class="metric-value">4</div></div>
+        <div class="metric"><div class="metric-label">Planned</div><div class="metric-value">4</div></div>
+        <div class="metric"><div class="metric-label">Platform</div><div class="metric-value">OpenClaw</div></div>
+        <div class="metric"><div class="metric-label">Network</div><div class="metric-value">Tailscale</div></div>
+      </div>
+      <div class="notes">
+        <strong>Live:</strong> Quill, Navani, Wayne, Steris<br>
+        <strong>Planned:</strong> Taln, Taravangian, Lightsong, Arclo
+      </div>
+    </div>
+
+    <!-- Quill Gateway -->
+    <div class="card">
+      <div class="card-header">
+        <span class="emoji">🔒</span>
+        <h2>Quill Gateway</h2>
+        <span class="status building">BUILDING</span>
+      </div>
+      <p style="color:#a0a0a0;font-size:14px;">Self-hosted agent runtime. Insurance against OpenClaw lock-in.</p>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Version</div><div class="metric-value">v0.1.0</div></div>
+        <div class="metric"><div class="metric-label">Lines</div><div class="metric-value">~500</div></div>
+        <div class="metric"><div class="metric-label">Status</div><div class="metric-value">Basic Chat</div></div>
+        <div class="metric"><div class="metric-label">Missing</div><div class="metric-value">Browser, Voice</div></div>
+      </div>
+      <div class="notes">
+        <strong>Why:</strong> OpenAI $10B acquisition rumor. Need escape hatch.
+      </div>
+    </div>
+  </div>
+
+  <p class="last-updated">Last updated: <span id="timestamp"></span> | Built by Quill 🦅</p>
+
+  <script>
+    // MLB countdown
+    const openingDay = new Date('2026-03-26');
+    const today = new Date();
+    const diff = Math.ceil((openingDay - today) / (1000 * 60 * 60 * 24));
+    document.getElementById('mlb-countdown').textContent = diff + ' days';
+    
+    // Timestamp
+    function updateTimestamp() {
+      document.getElementById('timestamp').textContent = new Date().toLocaleString('en-US', { 
+        timeZone: 'America/Chicago', 
+        month: 'short', day: 'numeric', year: 'numeric',
+        hour: 'numeric', minute: '2-digit'
+      }) + ' CT';
+    }
+    updateTimestamp();
+    
+    // Fetch live data
+    async function refreshData() {
+      try {
+        const res = await fetch('https://quill-home.tail21100c.ts.net/api/dashboard/summary');
+        if (res.ok) {
+          const data = await res.json();
+          // Update CRM stats
+          if (data.crm) {
+            document.querySelector('.card:nth-child(1) .metric:nth-child(1) .metric-value').textContent = data.crm.contacts || 0;
+            document.querySelector('.card:nth-child(1) .metric:nth-child(2) .metric-value').textContent = data.crm.deals || 0;
+          }
+        }
+      } catch (e) {
+        console.log('Dashboard refresh:', e.message);
+      }
+      updateTimestamp();
+    }
+    
+    // Auto-refresh every 5 minutes
+    refreshData();
+    setInterval(refreshData, 300000);
+  </script>
+</body>
+</html>
